@@ -31,7 +31,7 @@ jobs:
     - run: |
        python -VV
        pip install -r requirements.txt
-       python Live Daten.py
+       python live_daten.py
     - name: Commit and push CSV changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
