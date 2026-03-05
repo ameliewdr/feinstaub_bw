@@ -7,7 +7,7 @@ on:
     branches: [ main ]
   schedule:
     - cron: "0 */6 * * *"
-  
+import pandas as pd  
 jobs:
   run:
     name: run
