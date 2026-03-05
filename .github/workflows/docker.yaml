@@ -1,0 +1,40 @@
+name: Run the Python file
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: "0 */6 * * *"
+  
+jobs:
+  run:
+    name: run
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    env:
+      MSTEAMS: ${{ secrets.MSTEAMS}}
+      TELEGRAM: ${{ secrets.TELEGRAM}}
+
+
+    permissions:
+      contents: write
+      id-token: write
+      repository-projects: write
+      
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' 
+    - run: |
+       python -VV
+       pip install -r requirements.txt
+       python Live Daten.py
+    - name: Commit and push CSV changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: 'Update CSV data from seescraper'
+        file_pattern: '*.csv'
+        push_options: '--force-with-lease'
